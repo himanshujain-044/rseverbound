@@ -1,35 +1,73 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import cx from "classnames";
 
-function ImgSlider({ children, classes = "", speed = 2 }) {
+function ImgSlider({ children, classes = "", speed = 0.5 }) {
   const sliderRef = useRef(null);
+  const requestRef = useRef();
+  const [isPaused, setIsPaused] = useState(false);
+
+  const animate = () => {
+    if (sliderRef.current && !isPaused) {
+      sliderRef.current.scrollLeft += speed;
+
+      // Infinite loop reset: if we've scrolled past the first set of images
+      if (sliderRef.current.scrollLeft >= sliderRef.current.scrollWidth / 2) {
+        sliderRef.current.scrollLeft = 0;
+      }
+    }
+    requestRef.current = requestAnimationFrame(animate);
+  };
 
   useEffect(() => {
-    const slider = sliderRef.current;
-    let scrollAmount = 0;
-    const scrollSpeed = speed; // Adjust speed as needed
+    requestRef.current = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(requestRef.current);
+  }, [isPaused, speed]); // Re-sync if pause state or speed changes
 
-    const scrollSlider = () => {
-      scrollAmount += scrollSpeed;
-      slider.scrollLeft = scrollAmount;
+  const handleManualScroll = (direction) => {
+    if (sliderRef.current) {
+      const container = sliderRef.current;
+      const scrollAmount = container.offsetWidth; // Move by one full container width
 
-      // Reset scroll position to the beginning to create an infinite effect
-      if (scrollAmount >= slider.scrollWidth / 2) {
-        scrollAmount = 0;
-      }
-    };
-
-    const intervalId = setInterval(scrollSlider, 20);
-
-    return () => clearInterval(intervalId);
-  }, []);
+      container.scrollTo({
+        left:
+          container.scrollLeft +
+          (direction === "next" ? scrollAmount : -scrollAmount),
+        behavior: "smooth",
+      });
+    }
+  };
 
   return (
     <div
-      ref={sliderRef}
-      className={cx("flex w-full animate-scroll overflow-hidden", classes)}
+      className="relative group w-full overflow-hidden"
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
     >
-      {children}
+      {/* Navigation Buttons */}
+      <button
+        onClick={() => handleManualScroll("prev")}
+        className="absolute left-4 top-1/2 z-20 -translate-y-1/2 bg-black/30 hover:bg-black/60 text-white p-3 rounded-full transition-all"
+      >
+        &#10094;
+      </button>
+
+      <button
+        onClick={() => handleManualScroll("next")}
+        className="absolute right-4 top-1/2 z-20 -translate-y-1/2 bg-black/30 hover:bg-black/60 text-white p-3 rounded-full transition-all"
+      >
+        &#10095;
+      </button>
+
+      {/* Slider Container */}
+      <div
+        ref={sliderRef}
+        className={cx(
+          "flex w-full overflow-x-hidden whitespace-nowrap",
+          classes,
+        )}
+      >
+        {children}
+      </div>
     </div>
   );
 }

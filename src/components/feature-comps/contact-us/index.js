@@ -10,28 +10,28 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { phoneCountryCode } from "./phone-country-code";
-const serviceType = [
-  {
-    text: "0.77 MM",
-    value: "0.77mm",
-  },
-  {
-    text: "1.0 MM",
-    value: "1mm",
-  },
-  {
-    text: "1.5 MM",
-    value: "1.5mm",
-  },
-  {
-    text: "2.5 MM",
-    value: "2.5mm",
-  },
-  {
-    text: "4 MM",
-    value: "4mm",
-  },
-];
+// const serviceType = [
+//   {
+//     text: "0.77 MM",
+//     value: "0.77mm",
+//   },
+//   {
+//     text: "1.0 MM",
+//     value: "1mm",
+//   },
+//   {
+//     text: "1.5 MM",
+//     value: "1.5mm",
+//   },
+//   {
+//     text: "2.5 MM",
+//     value: "2.5mm",
+//   },
+//   {
+//     text: "4 MM",
+//     value: "4mm",
+//   },
+// ];
 
 const requirementType = [
   {

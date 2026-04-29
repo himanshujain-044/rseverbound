@@ -15,13 +15,14 @@ const Home = () => {
             multistrand wires.
           </div>
         </div>
-        <ImgSlider speed={2}>
+        <ImgSlider speed={0.5}>
           {[...images, ...images].map((src, index) => (
             <img
               key={index}
               src={src}
               alt={`Slide ${index}`}
-              className="w-full h-[24rem] md:h-[34rem] object-cover"
+              // Ensure min-width is set so images don't shrink
+              className="w-full min-w-full h-[24rem] md:h-[34rem] object-cover"
             />
           ))}
         </ImgSlider>

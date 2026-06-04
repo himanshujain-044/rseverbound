@@ -46,14 +46,14 @@ function ImgSlider({ children, classes = "", speed = 0.5 }) {
       {/* Navigation Buttons */}
       <button
         onClick={() => handleManualScroll("prev")}
-        className="absolute left-4 top-1/2 z-20 -translate-y-1/2 bg-black/30 hover:bg-black/60 text-white p-3 rounded-full transition-all"
+        className="absolute left-[45%] bottom-0 z-20 -translate-y-1/2  text-black p-3 rounded-full transition-all"
       >
         &#10094;
       </button>
 
       <button
         onClick={() => handleManualScroll("next")}
-        className="absolute right-4 top-1/2 z-20 -translate-y-1/2 bg-black/30 hover:bg-black/60 text-white p-3 rounded-full transition-all"
+        className="absolute right-[45%] bottom-0 z-20 -translate-y-1/2  text-black p-3 rounded-full transition-all"
       >
         &#10095;
       </button>
